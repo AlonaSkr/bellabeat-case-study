@@ -1,7 +1,7 @@
 -- ====================================================================
 -- BELLABEAT DATA ANALYSIS CASE STUDY
 -- Tool: Google Cloud BigQuery
--- Description: Beginner-friendly SQL queries covering data integrity,
+-- Description: SQL queries covering data integrity,
 --              cleaning, exploratory analysis, and user segmentation.
 -- ====================================================================
 
