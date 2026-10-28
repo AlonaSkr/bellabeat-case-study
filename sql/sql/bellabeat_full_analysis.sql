@@ -1,4 +1,4 @@
--- ====================================================================
+====================================================================
 -- BELLABEAT DATA ANALYSIS CASE STUDY
 -- Tool: Google Cloud BigQuery
 -- Description: SQL queries covering data integrity,
@@ -15,7 +15,7 @@ SELECT
     'daily_activity' AS table_name,
     COUNT(DISTINCT Id) AS unique_users,
     COUNT(*) AS total_rows
-FROM `bellabeat-data-512722.bellabeat_data.daily_activity`
+FROM `bellabeat-data-512722.bellabeat_data.dailyActivity_merged`
 
 UNION ALL
 
@@ -41,14 +41,23 @@ SELECT
     COUNT(*) AS duplicate_count
 FROM `bellabeat-data-512722.bellabeat_data.sleep_day`
 GROUP BY Id, SleepDay
-HAVING duplicate_count > 1;
+HAVING COUNT(*) > 1;   -- FIX: use COUNT(*) instead of the alias (portable across databases)
 
 
 -- ====================================================================
 -- 2. DATA CLEANING & STANDARDIZATION
+-- FIX: results are now saved as tables so the analysis below uses
+--      the cleaned data instead of the raw tables.
 -- ====================================================================
 
--- 2.1 Clean sleep data: convert date string and calculate minutes awake in bed
+-- 2.1 Clean sleep data: remove duplicates, convert date string,
+--     and calculate minutes awake in bed
+CREATE OR REPLACE TABLE `bellabeat-data-512722.bellabeat_data.sleep_day_clean` AS
+WITH sleep_deduped AS (
+  -- FIX: remove the duplicate rows found in check 1.2
+  SELECT DISTINCT *
+  FROM `bellabeat-data-512722.bellabeat_data.sleep_day`
+)
 SELECT
     Id,
     -- Convert text to a clean date
@@ -56,13 +65,24 @@ SELECT
     TotalSleepRecords,
     TotalMinutesAsleep,
     TotalTimeInBed,
-    -- Time in bed minus time asleep = time tossing and turning
+    -- Time in bed minus time asleep = all time spent awake in bed
     (TotalTimeInBed - TotalMinutesAsleep) AS minutes_awake_in_bed
 FROM 
-    `bellabeat-data-512722.bellabeat_data.sleep_day`;
+    sleep_deduped;
 
 
--- 2.2 Clean hourly steps: extract hour (0 to 23)
+-- 2.1b Verify the duplicates are gone (should return no rows)
+SELECT 
+    Id, 
+    sleep_date, 
+    COUNT(*) AS duplicate_count
+FROM `bellabeat-data-512722.bellabeat_data.sleep_day_clean`
+GROUP BY Id, sleep_date
+HAVING COUNT(*) > 1;
+
+
+-- 2.2 Clean hourly steps: parse timestamp and extract hour (0 to 23)
+CREATE OR REPLACE TABLE `bellabeat-data-512722.bellabeat_data.hourly_steps_clean` AS
 WITH formatted_hours AS (
   SELECT
     Id,
@@ -93,36 +113,32 @@ SELECT
     ROUND(AVG(SedentaryMinutes), 0) AS avg_sedentary_mins,
     ROUND(AVG(Calories), 0) AS avg_daily_calories
 FROM 
-    `bellabeat-data-512722.bellabeat_data.daily_activity`
+    `bellabeat-data-512722.bellabeat_data.dailyActivity_merged`
 WHERE 
     TotalSteps > 0; -- filter out days when device was not worn
 
 
 -- 3.2 Sleep averages: Sleep hours vs. time awake in bed
+-- FIX: now uses the de-duplicated sleep table
 SELECT 
     -- Average hours asleep
     ROUND(AVG(TotalMinutesAsleep) / 60, 1) AS avg_sleep_hours,
     -- Average hours spent in bed
     ROUND(AVG(TotalTimeInBed) / 60, 1) AS avg_time_in_bed_hours,
-    -- Average minutes spent trying to fall asleep
-    ROUND(AVG(TotalTimeInBed - TotalMinutesAsleep), 0) AS avg_minutes_awake_in_bed
+    -- FIX: average minutes awake in bed (falling asleep, night wakings,
+    --      and lying in bed after waking), not just "trying to fall asleep"
+    ROUND(AVG(minutes_awake_in_bed), 0) AS avg_minutes_awake_in_bed
 FROM 
-    `bellabeat-data-512722.bellabeat_data.sleep_day`;
+    `bellabeat-data-512722.bellabeat_data.sleep_day_clean`;
 
 
 -- 3.3 Peak activity hours throughout the day
-WITH hourly_data AS (
-  SELECT
-    EXTRACT(HOUR FROM PARSE_TIMESTAMP('%m/%d/%Y %I:%M:%S %p', ActivityHour)) AS hour_of_day,
-    StepTotal
-  FROM 
-    `bellabeat-data-512722.bellabeat_data.hourlySteps_merged`
-)
+-- FIX: uses the cleaned hourly table instead of re-parsing the raw data
 SELECT 
     hour_of_day,
     ROUND(AVG(StepTotal), 0) AS avg_steps
 FROM 
-    hourly_data
+    `bellabeat-data-512722.bellabeat_data.hourly_steps_clean`
 GROUP BY 
     hour_of_day
 ORDER BY 
@@ -134,17 +150,20 @@ ORDER BY
 -- ====================================================================
 
 -- 4.1 Categorize users by activity level
+-- FIX: AVG() returns decimals, so the old BETWEEN ranges left gaps
+--      (e.g. 7499.6 fell through to 'Very Active'). Sequential "<"
+--      checks cover every value with no gaps.
 SELECT 
     Id,
     ROUND(AVG(TotalSteps), 0) AS avg_daily_steps,
     CASE 
-        WHEN AVG(TotalSteps) < 5000 THEN 'Sedentary'
-        WHEN AVG(TotalSteps) BETWEEN 5000 AND 7499 THEN 'Lightly Active'
-        WHEN AVG(TotalSteps) BETWEEN 7500 AND 9999 THEN 'Fairly Active'
+        WHEN AVG(TotalSteps) < 5000  THEN 'Sedentary'
+        WHEN AVG(TotalSteps) < 7500  THEN 'Lightly Active'
+        WHEN AVG(TotalSteps) < 10000 THEN 'Fairly Active'
         ELSE 'Very Active'
     END AS activity_category
 FROM 
-    `bellabeat-data-512722.bellabeat_data.daily_activity`
+    `bellabeat-data-512722.bellabeat_data.dailyActivity_merged`
 WHERE 
     TotalSteps > 0
 GROUP BY 
@@ -159,11 +178,11 @@ SELECT
     COUNT(ActivityDate) AS total_logged_days,
     CASE 
         WHEN COUNT(ActivityDate) >= 25 THEN 'High Usage (25-31 days)'
-        WHEN COUNT(ActivityDate) BETWEEN 15 AND 24 THEN 'Moderate Usage (15-24 days)'
+        WHEN COUNT(ActivityDate) >= 15 THEN 'Moderate Usage (15-24 days)'
         ELSE 'Low Usage (< 15 days)'
     END AS device_usage_segment
 FROM 
-    `bellabeat-data-512722.bellabeat_data.daily_activity`
+    `bellabeat-data-512722.bellabeat_data.dailyActivity_merged`
 GROUP BY 
     Id
 ORDER BY 
