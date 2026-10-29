@@ -56,7 +56,7 @@ While the raw repository contains 18 separate CSV files at varying granularities
 | :--- | :--- | :--- | :--- |
 | **`daily_activity`**<br>*(dailyActivity_merged.csv)* | `Id`, `ActivityDate` | `TotalSteps`, `TotalDistance`, `VeryActiveMinutes`, `FairlyActiveMinutes`, `LightlyActiveMinutes`, `SedentaryMinutes`, `Calories` | Evaluates overall daily movement, energy expenditure, intensity breakdown, and baseline activity habits. |
 | **`sleep_day`**<br>*(sleepDay_merged.csv)* | `Id`, `SleepDay` | `TotalSleepRecords`, `TotalMinutesAsleep`, `TotalTimeInBed` | Analyzes rest patterns, sleep duration adequacy, and time spent awake in bed. |
-| **`hourlySteps_merged`**<br>*(hourlySteps_merged.csv)* | `Id`, `ActivityHour` | `StepTotal` | Uncovers intraday patterns to identify peak movement intervals and sluggish periods throughout the day. |
+| **`hourly_steps`**<br>*(hourlySteps_merged.csv)* | `Id`, `ActivityHour` | `StepTotal` | Uncovers intraday patterns to identify peak movement intervals and sluggish periods throughout the day. |
 
 ---
 
@@ -117,7 +117,7 @@ FROM sleep_deduped;
 
 A follow-up check confirmed the cleaned table contains no duplicate `Id` + `sleep_date` pairs.
 
-#### 3. Parsing Intraday Intervals (`hourlySteps_merged`)
+#### 3. Parsing Intraday Intervals (`hourly_steps`)
 Raw text timestamps were converted to true timestamps to extract the integer hour (0 to 23). This enables grouping movement patterns across a 24-hour day to pinpoint peak activity hours.
 
 ```sql
@@ -128,7 +128,7 @@ WITH formatted_hours AS (
         -- Step 1: Parse string into a valid timestamp
         PARSE_TIMESTAMP('%m/%d/%Y %I:%M:%S %p', ActivityHour) AS activity_time,
         StepTotal
-    FROM `bellabeat_data.hourlySteps_merged`
+    FROM `bellabeat_data.hourly_steps`
 )
 SELECT
     Id,
@@ -155,7 +155,7 @@ WHERE TotalSteps > 0;
 
 ## 📊 Exploratory Data Analysis & Key Insights (Analyze Phase)
 
-Using Google BigQuery, exploratory queries were run on the cleaned datasets to identify consumer habits, sleep behaviors, and intraday activity trends.
+Using Google BigQuery, exploratory queries were run on the cleaned datasets to identify consumer habits, sleep behaviors, and intraday activity trends. All figures below come from the April 12 – May 12, 2016 dataset after cleaning (863 worn days, 410 unique sleep records, 33 users).
 
 ---
 
@@ -174,13 +174,13 @@ FROM `bellabeat_data.daily_activity`
 WHERE TotalSteps > 0;  -- exclude days the tracker was not worn
 ```
 
-* **Average Daily Steps:** ~7,638 steps per day, falling short of the widely cited 10,000 steps per day benchmark.
+* **Average Daily Steps:** ~8,319 steps per worn day, still short of the widely cited 10,000-step benchmark.
 * **Time Allocation Breakdown:**
-  * **Sedentary Time:** ~991 minutes (~16.5 hours/day), by far the largest share of tracked time.
-  * **Lightly Active Time:** ~193 minutes (~3.2 hours/day).
-  * **Fairly Active Time:** ~14 minutes/day.
-  * **Very Active Time:** ~21 minutes/day.
-* **Key Finding:** Users spend most of their day sedentary, with light, everyday movement making up most of their activity. Very active time accounts for only ~1.5% of the day (21 of 1,440 minutes), suggesting a population of casual movers rather than fitness enthusiasts.
+  * **Sedentary Time:** ~956 minutes (~16 hours/day), by far the largest share of tracked time.
+  * **Lightly Active Time:** ~210 minutes (~3.5 hours/day).
+  * **Fairly Active Time:** ~15 minutes/day.
+  * **Very Active Time:** ~23 minutes/day.
+* **Key Finding:** Users spend most of their day sedentary, and light everyday movement makes up nearly all of their activity. Very active time accounts for only ~1.6% of the day (23 of 1,440 minutes), suggesting a population of casual movers rather than fitness enthusiasts.
 
 ---
 
@@ -195,14 +195,15 @@ SELECT
 FROM `bellabeat_data.sleep_day_clean`;
 ```
 
-* **Average Sleep Duration:** ~419 minutes (~7.0 hours per night), at the lower end of the standard 7–9 hour recommendation.
-* **Average Time in Bed:** ~458 minutes (~7.6 hours per night).
-* **Time Awake in Bed:** Users spend an average of **~39 minutes** per night in bed without being asleep, whether falling asleep, waking during the night, or lying in bed after waking.
-* **Adherence Gap:** While 33 users logged daily movement, only 24 users (~73%) tracked sleep, suggesting friction with wearing a wristband overnight.
+* **Average Sleep Duration:** ~7.0 hours per night, at the lower end of the standard 7–9 hour recommendation.
+* **Average Time in Bed:** ~7.6 hours per night.
+* **Time Awake in Bed:** ~39 minutes per night on average. However, plotting each night shows that **most nights are highly efficient**: time asleep is close to time in bed. The average is pulled up by a minority of restless nights with large gaps, plus a few extreme records of ~16 hours in bed.
+* **Adherence Gap:** While 33 users logged daily activity, only 24 (~73%) tracked sleep at all, suggesting friction with wearing a wristband overnight.
 
 ---
 
 ### 3. Intraday Movement Patterns (Hourly Distribution)
+
 ```sql
 -- Average steps for each hour of the day
 SELECT 
@@ -214,14 +215,22 @@ ORDER BY avg_steps DESC;
 ```
 
 Analyzing hourly step distributions revealed distinct daily behavioral cycles:
-* **Morning Inactivity:** Low movement until 8:00 AM.
-* **Lunchtime Surge (12:00 PM – 2:00 PM):** A notable spike in steps as users break for lunch and run errands.
-* **Afternoon Slump (2:00 PM – 4:00 PM):** Activity drops as users return to sedentary routines.
-* **Peak Evening Window (5:00 PM – 7:00 PM):** Highest activity volume of the day, likely reflecting evening commutes, gym sessions, and outdoor walks.
+* **Morning Ramp-Up:** Movement is minimal overnight and climbs steadily from 7:00 AM.
+* **Lunchtime Surge (12:00 PM – 3:00 PM):** A sustained block of high activity around midday.
+* **Afternoon Dip (3:00 PM – 4:00 PM):** Steps drop sharply for about one hour, to roughly 25% below the surrounding hours.
+* **Evening Peak (5:00 PM – 8:00 PM):** The most active window of the day, with the single busiest hour at 6:00–7:00 PM. This likely reflects commutes, workouts, and evening walks.
+* **Wind-Down:** Activity falls steadily after 8:00 PM.
 
 ---
 
-### 4. User Segmentation
+### 4. Steps vs. Calories Burned
+
+* Plotting all 863 worn days shows a clear positive relationship: **days with more steps burn more calories**.
+* The spread around the trend line is wide, though. Users with similar step counts can burn very different amounts of calories, because body size and resting metabolism also play a large role. A handful of days with very low calorie counts likely reflect partial-day or device-error records.
+
+---
+
+### 5. User Segmentation
 
 #### A. Activity Level Breakdown (Based on Average Daily Steps)
 Each user's average daily steps (excluding zero-step days) was used to place them in one of four activity categories:
@@ -246,10 +255,12 @@ ORDER BY avg_daily_steps DESC;
 > Sequential `<` checks are used instead of `BETWEEN` because `AVG()` returns decimals. With `BETWEEN 5000 AND 7499`, an average like 7,499.6 would fall through the gaps and be mislabeled.
 
 **Results:**
-1. **Sedentary (< 5,000 steps/day):** ~24% of users (8 of 33).
+1. **Sedentary (< 5,000 steps/day):** ~21% of users (7 of 33).
 2. **Lightly Active (5,000 – 7,499 steps/day):** ~27% of users (9 of 33).
-3. **Fairly Active (7,500 – 9,999 steps/day):** ~27% of users (9 of 33).
+3. **Fairly Active (7,500 – 9,999 steps/day):** ~30% of users (10 of 33).
 4. **Very Active (10,000+ steps/day):** ~21% of users (7 of 33).
+
+Just under half of users (16 of 33, ~48%) average fewer than 7,500 steps per day, and only about 1 in 5 reaches 10,000.
 
 #### B. Device Tracking Adherence (Consistency Over 31 Days)
 Users were grouped by the number of days with logged activity records:
@@ -270,9 +281,25 @@ ORDER BY total_logged_days DESC;
 ```
 
 **Results:**
-* **High Usage (25–31 logged days):** ~80% of users logged activity consistently throughout the month.
-* **Moderate Usage (15–24 logged days):** ~12% of users.
-* **Low Usage (< 15 logged days):** ~8% of users showed tracking drop-off, possibly due to charging friction or loss of habit.
+* **High Usage (25–31 logged days):** ~88% of users (29 of 33).
+* **Moderate Usage (15–24 logged days):** ~9% of users (3 of 33).
+* **Low Usage (< 15 logged days):** ~3% of users (1 of 33).
+
+**Key Finding:** Daytime tracking adherence is excellent, with nearly 9 in 10 users logging activity almost every day. The real engagement gap is **overnight**: more than a quarter of users never tracked sleep.
+
+---
+
+## 📈 Data Visualization (Share Phase)
+
+Findings were visualized in an interactive **Tableau Public** dashboard, with one chart per key insight:
+1. Daily time allocation by activity level
+2. Average steps by hour of day, with the lunch surge, afternoon dip, and evening peak highlighted
+3. Time asleep vs. time in bed for each night
+4. Steps vs. calories burned for each worn day
+5. Users by activity level segment
+6. Users by device usage segment
+
+🔗 **Interactive dashboard:** [View on Tableau Public](ADD-YOUR-TABLEAU-LINK-HERE)
 
 ---
 
@@ -281,26 +308,17 @@ ORDER BY total_logged_days DESC;
 Based on these behavioral insights, Bellabeat has an opportunity to position its products (particularly the **Bellabeat Leaf** and **Bellabeat App**) to solve these specific user friction points.
 
 ### 1. Position the Bellabeat Leaf as the "Effortless 24/7 Sleep Companion"
-* **The Problem:** ~27% of users (9 of 33) never tracked sleep, and wrist-worn fitness trackers can be uncomfortable to sleep with.
-* **The Strategy:** Highlight that the **Leaf** can be clipped to sleepwear, worn as a lightweight pendant, or attached as a discreet accessory. Market its long battery life (no nightly charging cables) to capture consumers who quit traditional fitness watches due to charging friction.
+* **The Problem:** ~88% of users logged activity almost every day, yet ~27% (9 of 33) never tracked their sleep. Users are happy to wear a tracker during the day, but wrist-worn devices are often uncomfortable overnight.
+* **The Strategy:** Highlight that the **Leaf** can be clipped to sleepwear, worn as a lightweight pendant, or attached as a discreet accessory. Market its long battery life (no nightly charging cables) to close the gap between daytime and overnight tracking.
 
-### 2. Introduce In-App "Mindful Wind-Down" Tools for Restless Nights
-* **The Problem:** Users spend an average of ~39 minutes awake in bed each night.
-* **The Strategy:** The Bellabeat App should trigger gentle "wind-down" notifications 45 minutes before a user's target bedtime. Promote guided bedtime meditations, breathwork, and ambient soundscapes within the Bellabeat membership to help users fall asleep faster and rest more soundly.
+### 2. Use In-App Sleep Insights to Support Restless Nights
+* **The Problem:** Most nights are efficient, but a meaningful minority show large gaps between time in bed and time asleep, raising the average to ~39 minutes awake in bed per night.
+* **The Strategy:** Rather than generic sleep advice for everyone, the Bellabeat App should detect restless nights and respond personally: gentle "wind-down" reminders before the user's usual bedtime, plus guided meditations, breathwork, and ambient soundscapes within the Bellabeat membership.
 
-### 3. Combat the Afternoon Slump with Smart Prompts
-* **The Problem:** Activity drops noticeably between 2:00 PM and 4:00 PM.
-* **The Strategy:** Use subtle, customizable vibration reminders on the Bellabeat tracker during mid-afternoon hours to prompt brief 5-minute movement or hydration breaks. Frame these not as intense fitness demands, but as stress-reduction and focus-boosting rituals.
+### 3. Time Movement Prompts to Daily Rhythms
+* **The Problem:** Activity dips sharply around 3:00–4:00 PM, and the most active window of the day is 5:00–8:00 PM.
+* **The Strategy:** Send a subtle, customizable vibration reminder around 3:00 PM to prompt a brief 5-minute movement or hydration break, framed as a focus-boosting ritual rather than a fitness demand. Use the 5:00–8:00 PM peak for encouraging content, such as goal progress, streaks, and evening walk challenges, when users are already most motivated to move.
 
 ### 4. Tiered Habit Coaching Instead of the 10,000-Step Hurdle
-* **The Problem:** Just over half of users (~51%) average fewer than 7,500 steps per day. Imposing rigid 10,000-step goals can lead to frustration and device abandonment.
+* **The Problem:** Just under half of users (~48%) average fewer than 7,500 steps per day, and only ~21% reach 10,000. Imposing rigid 10,000-step goals can lead to frustration and device abandonment.
 * **The Strategy:** In marketing campaigns and onboarding flows, emphasize holistic wellness and achievable micro-goals (e.g., "Add 1,000 steps to your natural daily rhythm") rather than aggressive athletic metrics.
-
-
-
-
-
-
-
-
-
