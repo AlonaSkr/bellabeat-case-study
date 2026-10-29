@@ -299,7 +299,7 @@ Findings were visualized in an interactive **Tableau Public** dashboard, with on
 5. Users by activity level segment
 6. Users by device usage segment
 
-🔗 **Interactive dashboard:** [View on Tableau Public](ADD-YOUR-TABLEAU-LINK-HERE)
+🔗 **Interactive dashboard:** [View on Tableau Public](https://public.tableau.com/views/BellabeatDataAnalysis_17932507769210/Dashboard1)
 
 ---
 
