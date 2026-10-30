@@ -62,8 +62,9 @@ While the raw repository contains 18 separate CSV files at varying granularities
 
 ```
 README.md                      ← project write-up (this file)
-bellabeat_analysis_fixed.sql   ← full BigQuery script: integrity checks, cleaning, analysis
-tableau_exports.sql            ← queries that produce the Tableau-ready summary tables
+sql/
+  bellabeat_full_analysis.sql  ← full BigQuery script: integrity checks, cleaning, analysis
+  tableau_exports.sql          ← queries that produce the Tableau-ready summary tables
 data/
   raw/                         ← original Fitbit CSVs (April 12 – May 12, 2016)
   tableau/                     ← summary tables exported from BigQuery for the dashboard
@@ -71,7 +72,7 @@ data/
 
 * [`data/raw/`](data/raw/) contains the three original CSV files listed above.
 * [`data/tableau/`](data/tableau/) contains the five summary tables used to build the Tableau dashboard.
-* The cleaned tables (`sleep_day_clean`, `hourly_steps_clean`) are not stored as files. They can be recreated by running [`bellabeat_analysis_fixed.sql`](bellabeat_analysis_fixed.sql).
+* The cleaned tables (`sleep_day_clean`, `hourly_steps_clean`) are not stored as files. They can be recreated by running [`bellabeat_full_analysis.sql`](sql/bellabeat_full_analysis.sql).
 
 ---
 
@@ -86,7 +87,7 @@ data/
 
 ## ⚙️ Data Cleaning & Transformation (Process Phase)
 
-The raw Fitbit datasets were audited and cleaned in **Google Cloud BigQuery** to resolve formatting errors, remove duplicate records, filter non-wear days, and engineer derived metrics. Cleaned results are saved as new tables so every analysis query runs on the same validated data. The full script is available in [`bellabeat_analysis_fixed.sql`](bellabeat_analysis_fixed.sql).
+The raw Fitbit datasets were audited and cleaned in **Google Cloud BigQuery** to resolve formatting errors, remove duplicate records, filter non-wear days, and engineer derived metrics. Cleaned results are saved as new tables so every analysis query runs on the same validated data. The full script is available in [`bellabeat_full_analysis.sql`](sql/bellabeat_full_analysis.sql).
 
 ---
 
@@ -314,7 +315,7 @@ Findings were visualized in an interactive **Tableau Public** dashboard, with on
 5. Users by activity level segment
 6. Users by device usage segment
 
-The data behind each chart is in [`data/tableau/`](data/tableau/), produced by [`tableau_exports.sql`](tableau_exports.sql) .
+The data behind each chart is in [`data/tableau/`](data/tableau/), produced by [`tableau_exports.sql`](sql/tableau_exports.sql).
 
 🔗 **Interactive dashboard:** [View on Tableau Public](https://public.tableau.com/views/BellabeatDataAnalysis_17932507769210/Dashboard1)
 
