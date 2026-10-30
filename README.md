@@ -43,6 +43,7 @@ The project follows the six stages of the Google Data Analysis process:
 
 ## 📂 Data Sources & Architecture
 The primary dataset used for this case study is the **FitBit Fitness Tracker Data** (publicly available via [Kaggle](https://www.kaggle.com/datasets/arashnic/fitbit) and stored under a public domain dedication).
+📁 The data files used in this analysis are in the [`data`](data/) folder.
 
 * **Source Entity:** Collected by Mobius via Amazon Mechanical Turk.
 * **Original Study Citation:** Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016). *Crowdsourced Fitbit datasets 03.12.2016-05.12.2016* [Data set]. Zenodo.
