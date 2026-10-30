@@ -43,7 +43,6 @@ The project follows the six stages of the Google Data Analysis process:
 
 ## 📂 Data Sources & Architecture
 The primary dataset used for this case study is the **FitBit Fitness Tracker Data** (publicly available via [Kaggle](https://www.kaggle.com/datasets/arashnic/fitbit) and stored under a public domain dedication).
-📁 The data files used in this analysis are in the [`data`](data/) folder.
 
 * **Source Entity:** Collected by Mobius via Amazon Mechanical Turk.
 * **Original Study Citation:** Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016). *Crowdsourced Fitbit datasets 03.12.2016-05.12.2016* [Data set]. Zenodo.
@@ -59,6 +58,21 @@ While the raw repository contains 18 separate CSV files at varying granularities
 | **`sleep_day`**<br>*(sleepDay_merged.csv)* | `Id`, `SleepDay` | `TotalSleepRecords`, `TotalMinutesAsleep`, `TotalTimeInBed` | Analyzes rest patterns, sleep duration adequacy, and time spent awake in bed. |
 | **`hourly_steps`**<br>*(hourlySteps_merged.csv)* | `Id`, `ActivityHour` | `StepTotal` | Uncovers intraday patterns to identify peak movement intervals and sluggish periods throughout the day. |
 
+### 📁 Repository Structure
+
+```
+README.md                      ← project write-up (this file)
+bellabeat_analysis_fixed.sql   ← full BigQuery script: integrity checks, cleaning, analysis
+tableau_exports.sql            ← queries that produce the Tableau-ready summary tables
+data/
+  raw/                         ← original Fitbit CSVs (April 12 – May 12, 2016)
+  tableau/                     ← summary tables exported from BigQuery for the dashboard
+```
+
+* [`data/raw/`](data/raw/) contains the three original CSV files listed above.
+* [`data/tableau/`](data/tableau/) contains the five summary tables used to build the Tableau dashboard.
+* The cleaned tables (`sleep_day_clean`, `hourly_steps_clean`) are not stored as files. They can be recreated by running [`bellabeat_analysis_fixed.sql`](bellabeat_analysis_fixed.sql).
+
 ---
 
 ## ⚠️ Data Limitations & Bias Analysis (ROCCC)
@@ -72,7 +86,7 @@ While the raw repository contains 18 separate CSV files at varying granularities
 
 ## ⚙️ Data Cleaning & Transformation (Process Phase)
 
-The raw Fitbit datasets were audited and cleaned in **Google Cloud BigQuery** to resolve formatting errors, remove duplicate records, filter non-wear days, and engineer derived metrics. Cleaned results are saved as new tables so every analysis query runs on the same validated data. The full script is available in this repository.
+The raw Fitbit datasets were audited and cleaned in **Google Cloud BigQuery** to resolve formatting errors, remove duplicate records, filter non-wear days, and engineer derived metrics. Cleaned results are saved as new tables so every analysis query runs on the same validated data. The full script is available in [`bellabeat_analysis_fixed.sql`](bellabeat_analysis_fixed.sql).
 
 ---
 
@@ -299,6 +313,8 @@ Findings were visualized in an interactive **Tableau Public** dashboard, with on
 4. Steps vs. calories burned for each worn day
 5. Users by activity level segment
 6. Users by device usage segment
+
+The data behind each chart is in [`data/tableau/`](data/tableau/), produced by [`tableau_exports.sql`](tableau_exports.sql).
 
 🔗 **Interactive dashboard:** [View on Tableau Public](https://public.tableau.com/views/BellabeatDataAnalysis_17932507769210/Dashboard1)
 
