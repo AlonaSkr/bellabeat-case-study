@@ -1,8 +1,5 @@
 -- ====================================================================
 -- BELLABEAT: TABLEAU-READY EXPORTS
--- Run each query in BigQuery, then Save Results > CSV (local file).
--- Run the cleaning section of the main script first so the
--- sleep_day_clean and hourly_steps_clean tables exist.
 -- ====================================================================
 
 
