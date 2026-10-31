@@ -113,9 +113,17 @@ data/
 
 ---
 
-## ⚙️ Data Cleaning & Transformation (Process Phase)
-
-The raw Fitbit datasets were audited and cleaned in **Google Cloud BigQuery** to resolve formatting errors, remove duplicate records, filter non-wear days, and engineer derived metrics. Cleaned results are saved as new tables so every analysis query runs on the same validated data. The full script is available in [`bellabeat_full_analysis.sql`](sql/bellabeat_full_analysis.sql).
+<table border="0">
+  <tr>
+    <td width="30%" align="center" valign="middle">
+      <img src="images/mascot/mascot_looks_thoughtfully_into_the_phone .jpg" alt="Bellabeat Mascot Thoughtful" width="180" />
+    </td>
+    <td width="70%" valign="top">
+      <h3>⚙️ Data Cleaning & Transformation (Process Phase)</h3>
+      <p>The raw Fitbit datasets were audited and cleaned in Google Cloud BigQuery to resolve formatting errors, remove duplicate records, filter non-wear days, and engineer derived metrics. Cleaned results are saved as new tables so every analysis query runs on the same validated data. The full script is available in <code>bellabeat_full_analysis.sql</code>.</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
