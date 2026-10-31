@@ -307,23 +307,31 @@ ORDER BY total_logged_days DESC;
 
 ## 📈 Data Visualization (Share Phase)
 
-Findings were visualized in an interactive **Tableau Public** dashboard, with one chart per key insight:
 
-**1. Daily time allocation by activity level**
-
+### 📊 Daily Time Allocation by Activity Level
 
 
 
 
+![Daily time allocation by activity level](images/tableau/Daily_time_allocation_by_activity_level.png)
 
 
 
 
-**2. Average steps by hour of day, with the lunch surge, afternoon dip, and evening peak highlighted**
 
 
 
 
+
+
+
+### 📈 Average Steps by Hour of Day with the lunch surge, afternoon dip, and evening peak highlighted*
+
+
+
+<p align="left">
+  <img src="images/tableau/Average_steps_by_hour_of_day.png" width="550" alt="Average steps by hour of day" />
+</p>
 
 
 
