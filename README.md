@@ -22,17 +22,25 @@ Analyze public consumer smart-device fitness data (specifically tracking daily a
 
 ---
 
-## 🧭 Analysis Framework
-The project follows the six stages of the Google Data Analysis process:
-
-1. **Ask:** Define business questions, identify key objectives, and align with stakeholder goals.
-2. **Prepare:** Collect and store data, evaluate credibility and bias using the ROCCC framework.
-3. **Process:** Clean, transform, validate, and document data preparation to ensure integrity.
-4. **Analyze:** Aggregate, organize, and perform exploratory data analysis (EDA) to uncover trends.
-5. **Share:** Design executive-level data visualizations and communicate findings effectively.
-6. **Act:** Deliver actionable, high-level marketing strategies and product recommendations.
-
----
+<table>
+  <tr>
+    <td valign="top">
+      <h3>🧭 Analysis Framework</h3>
+      <p>The project follows the six stages of the Google Data Analysis process:</p>
+      <ol>
+        <li><strong>Ask:</strong> Define business questions, identify key objectives, and align with stakeholder goals.</li>
+        <li><strong>Prepare:</strong> Collect and store data, evaluate credibility and bias using the ROCCC framework.</li>
+        <li><strong>Process:</strong> Clean, transform, validate, and document data preparation to ensure integrity.</li>
+        <li><strong>Analyze:</strong> Aggregate, organize, and perform exploratory data analysis (EDA) to uncover trends.</li>
+        <li><strong>Share:</strong> Design executive-level data visualizations and communicate findings effectively.</li>
+        <li><strong>Act:</strong> Deliver actionable, high-level marketing strategies and product recommendations.</li>
+      </ol>
+    </td>
+    <td width="200" align="center" valign="middle">
+      <img src="./images/mascot/mascot_standing_and_smiling.jpg" alt="Bellabeat Mascot Smiling" width="160" />
+    </td>
+  </tr>
+</table>
 
 ## 🛠️ Tools & Technologies
 * **Data Storage & Cleaning:** Google BigQuery (SQL)
@@ -41,14 +49,23 @@ The project follows the six stages of the Google Data Analysis process:
 
 ---
 
-## 📂 Data Sources & Architecture
-The primary dataset used for this case study is the **FitBit Fitness Tracker Data** (publicly available via [Kaggle](https://www.kaggle.com/datasets/arashnic/fitbit) and stored under a public domain dedication).
-
-* **Source Entity:** Collected by Mobius via Amazon Mechanical Turk.
-* **Original Study Citation:** Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016). *Crowdsourced Fitbit datasets 03.12.2016-05.12.2016* [Data set]. Zenodo.
-* **Collection Window:** April 12, 2016 – May 12, 2016 (31-day monitoring window).
-* **Sample Size:** 33 unique eligible Fitbit users who consented to the submission of personal tracker data.
-
+<table>
+  <tr>
+    <td width="200" align="center" valign="middle">
+      <img src="./images/mascot/mascot_with_data.png" alt="Bellabeat Mascot" width="160" />
+    </td>
+    <td valign="top">
+      <h3>📂 Data Sources & Architecture</h3>
+      <p>The primary dataset used for this case study is the FitBit Fitness Tracker Data (publicly available via Kaggle and stored under a public domain dedication).</p>
+      <ul>
+        <li><strong>Source Entity:</strong> Collected by Mobius via Amazon Mechanical Turk.</li>
+        <li><strong>Original Study Citation:</strong> Furberg, R., Brinton, J., Keating, M., & Ortiz, A. (2016). Crowdsourced Fitbit datasets 03.12.2016-05.12.2016 [Data set]. Zenodo.</li>
+        <li><strong>Collection Window:</strong> April 12, 2016 – May 12, 2016 (31-day monitoring window).</li>
+        <li><strong>Sample Size:</strong> 33 unique eligible Fitbit users who consented to the submission of personal tracker data.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 ### Core Datasets Selected for Analysis
 While the raw repository contains 18 separate CSV files at varying granularities (seconds, minutes, hours, days), the following three tables were selected to answer Bellabeat's executive business questions:
 
@@ -76,12 +93,23 @@ data/
 
 ---
 
-## ⚠️ Data Limitations & Bias Analysis (ROCCC)
-* **Reliable (Low):** Small sample size ($N = 33$ unique users in daily activity; $N = 24$ in sleep logs).
-* **Original (Low):** Crowdsourced via Amazon Mechanical Turk rather than direct first-party telemetry.
-* **Comprehensive (Low):** No demographic information (gender, age, location, occupation). Since Bellabeat builds for women, insights must be evaluated as general human activity habits rather than female-specific physiology.
-* **Current (Low):** Collected in Spring 2016. Consumer wearable hardware and habits have evolved.
-* **Cited (Medium):** Well-documented methodology via Zenodo under CC0: Public Domain.
+<table>
+  <tr>
+    <td valign="top">
+      <h3>⚠️ Data Limitations & Bias Analysis (ROCCC)</h3>
+      <ul>
+        <li><strong>Reliable (Low):</strong> Small sample size ($N = 33$ unique users in daily activity; $N = 24$ in sleep logs).</li>
+        <li><strong>Original (Low):</strong> Crowdsourced via Amazon Mechanical Turk rather than direct first-party telemetry.</li>
+        <li><strong>Comprehensive (Low):</strong> No demographic information (gender, age, location, occupation). Since Bellabeat builds for women, insights must be evaluated as general human activity habits rather than female-specific physiology.</li>
+        <li><strong>Current (Low):</strong> Collected in Spring 2016. Consumer wearable hardware and habits have evolved.</li>
+        <li><strong>Cited (Medium):</strong> Well-documented methodology via Zenodo under CC0: Public Domain.</li>
+      </ul>
+    </td>
+    <td width="200" align="center" valign="middle">
+      <img src="./images/mascot/mascot_standing_and_looking left.jpg" alt="Bellabeat Mascot Looking Left" width="160" />
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -169,10 +197,17 @@ WHERE TotalSteps > 0;
 
 ---
 
-## 📊 Exploratory Data Analysis & Key Insights (Analyze Phase)
-
-Using Google BigQuery, exploratory queries were run on the cleaned datasets to identify consumer habits, sleep behaviors, and intraday activity trends. All figures below come from the April 12 – May 12, 2016 dataset after cleaning (863 worn days, 410 unique sleep records, 33 users).
-
+<table>
+  <tr>
+    <td width="200" align="center" valign="middle">
+      <img src="./images/mascot/mascot_walking_right.jpg" alt="Bellabeat Mascot Walking" width="160" />
+    </td>
+    <td valign="top">
+      <h3>📊 Exploratory Data Analysis & Key Insights (Analyze Phase)</h3>
+      <p>Using Google BigQuery, exploratory queries were run on the cleaned datasets to identify consumer habits, sleep behaviors, and intraday activity trends. All figures below come from the April 12 – May 12, 2016 dataset after cleaning (863 worn days, 410 unique sleep records, 33 users).</p>
+    </td>
+  </tr>
+</table>
 ---
 
 ### 1. Daily Activity Baseline: The Sedentary Reality
