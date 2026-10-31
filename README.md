@@ -308,12 +308,56 @@ ORDER BY total_logged_days DESC;
 ## 📈 Data Visualization (Share Phase)
 
 Findings were visualized in an interactive **Tableau Public** dashboard, with one chart per key insight:
-1. Daily time allocation by activity level
-2. Average steps by hour of day, with the lunch surge, afternoon dip, and evening peak highlighted
-3. Time asleep vs. time in bed for each night
-4. Steps vs. calories burned for each worn day
-5. Users by activity level segment
-6. Users by device usage segment
+**1. Daily time allocation by activity level**
+
+<img width="1077" height="208" alt="Screenshot 2026-10-30 at 6 14 42 PM" src="https://github.com/user-attachments/assets/c2edb238-0b1f-4476-a14d-9fd890b0cc89" />
+
+
+
+
+
+
+
+**2. Average steps by hour of day, with the lunch surge, afternoon dip, and evening peak highlighted**
+
+<img width="630" height="575" alt="Screenshot 2026-10-30 at 6 15 07 PM" src="https://github.com/user-attachments/assets/18dff419-0e76-48f6-b6bc-413ffc925949" />
+
+
+
+
+
+**3. Time asleep vs. time in bed for each night**
+
+<img width="549" height="573" alt="Screenshot 2026-10-30 at 6 15 26 PM" src="https://github.com/user-attachments/assets/b3bdff06-2bc0-44ab-a256-b9253352a675" />
+
+
+
+
+
+
+**4. Steps vs. calories burned for each worn day**
+
+<img width="560" height="565" alt="Screenshot 2026-10-30 at 6 45 53 PM" src="https://github.com/user-attachments/assets/b92b07f8-3e32-4b03-8060-bc846980bd9d" />
+
+
+
+
+
+
+**5. Users by activity level segment**
+
+<img width="350" height="568" alt="Screenshot 2026-10-30 at 6 49 48 PM" src="https://github.com/user-attachments/assets/885404cf-9671-48ab-95b2-9008c9dfbcc7" />
+
+
+
+
+
+
+**6. Users by device usage segment**
+
+<img width="401" height="571" alt="Screenshot 2026-10-30 at 6 48 04 PM" src="https://github.com/user-attachments/assets/6f6d65ec-0367-485f-a931-b14ef621da7a" />
+
+
 
 The data behind each chart is in [`data/tableau/`](data/tableau/), produced by [`tableau_exports.sql`](sql/tableau_exports.sql).
 
