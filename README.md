@@ -329,7 +329,19 @@ ORDER BY total_logged_days DESC;
 
 
 
-<p align="left">
+<table border="0">
+  <tr>
+    <td width="30%" align="center">
+      <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Barnaby is happy" />
+    </td>
+    <td width="70%">
+      <p><strong>Activity peaks in the evening and drops after lunch.</strong></p>
+      <p>Tracking hourly steps reveals clear behavioral patterns throughout the day, showing lower activity during midday hours followed by a strong surge in the evening.</p>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
   <img src="images/tableau/Average_steps_by_hour_of_day.png" width="550" alt="Average steps by hour of day" />
 </p>
 
