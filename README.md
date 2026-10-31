@@ -396,36 +396,89 @@ ORDER BY total_logged_days DESC;
 
 
 
-**3. Time asleep vs. time in bed for each night**
+**📊 Time Asleep vs. Time in Bed**
+
+<table border="0">
+  <tr>
+    <td width="30%" align="center">
+      <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
+    </td>
+    <td width="70%">
+      <p>Comparing total time spent in bed against actual time asleep highlights sleep efficiency and latency patterns across participants.</p>
+      <p>Overall, understanding these sleep dynamics provides foundational insights for designing targeted feature recommendations that improve user rest quality.</p>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="images/tableau/time_asleep_vs_time_in_bed.png" width="550" alt="Time asleep vs time in bed" />
+</p>
+
+
+
+**📊 Steps vs. Calories Burned for Each Worn Day**
+
+<table border="0">
+  <tr>
+    <td width="30%" align="center">
+      <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
+    </td>
+    <td width="70%">
+      <p>Examining the direct relationship between daily step counts and total calories burned helps quantify how physical movement drives energy expenditure.</p>
+      <p>Overall, higher daily step milestones consistently correspond to increased caloric burn, emphasizing the impact of active daily habits.</p>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="images/tableau/Steps_vs._calories_burned_for_each_worn_day.png" width="550" alt="Steps vs calories burned for each worn day" />
+</p>
 
 
 
 
 
 
+**📊 Users by Activity Level Segment**
 
 
-**4. Steps vs. calories burned for each worn day**
+<table border="0">
+  <tr>
+    <td width="30%" align="center">
+      <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
+    </td>
+    <td width="70%">
+      <p>Categorizing participants into distinct activity segments reveals how user populations break down across sedentary, lightly active, fairly active, and very active tiers.</p>
+      <p>Overall, segmenting these activity behaviors helps identify key user groups for targeted engagement and personalized wellness recommendations.</p>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="images/tableau/Users_by_activity_level_segment.png" width="400" alt="Users by activity level segment" />
+</p>
 
 
 
 
 
+**📊 Users by Device Usage Segment**
 
+<table border="0">
+  <tr>
+    <td width="30%" align="center">
+      <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
+    </td>
+    <td width="70%">
+      <p>Classifying participants by how consistently they wear their tracking devices uncovers patterns in user adherence and engagement over time.</p>
+      <p>Overall, identifying device usage tiers helps pinpoint drop-off points and guides retention strategies for long-term health tracking.</p>
+    </td>
+  </tr>
+</table>
 
-
-**5. Users by activity level segment**
-
-
-
-
-
-
-
-
-**6. Users by device usage segment**
-
-
+<p align="center">
+  <img src="images/tableau/Users_by_device_usage_segment.png" width="400" alt="Users by device usage segment" />
+</p>
 
 
 
