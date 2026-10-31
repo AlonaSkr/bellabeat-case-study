@@ -404,7 +404,7 @@ ORDER BY total_logged_days DESC;
       <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
     </td>
     <td width="70%">
-      <p>Comparing total time spent in bed against actual time asleep highlights sleep efficiency and latency patterns across participants.</p>
+      <p><strong>Comparing total time spent in bed against actual time asleep highlights sleep efficiency and latency patterns across participants.</strong></p>
       <p>Overall, understanding these sleep dynamics provides foundational insights for designing targeted feature recommendations that improve user rest quality.</p>
     </td>
   </tr>
@@ -415,7 +415,6 @@ ORDER BY total_logged_days DESC;
 </p>
 
 
-
 **📊 Steps vs. Calories Burned for Each Worn Day**
 
 <table border="0">
@@ -424,7 +423,7 @@ ORDER BY total_logged_days DESC;
       <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
     </td>
     <td width="70%">
-      <p>Examining the direct relationship between daily step counts and total calories burned helps quantify how physical movement drives energy expenditure.</p>
+      <p><strong>Examining the direct relationship between daily step counts and total calories burned helps quantify how physical movement drives energy expenditure.</strong></p>
       <p>Overall, higher daily step milestones consistently correspond to increased caloric burn, emphasizing the impact of active daily habits.</p>
     </td>
   </tr>
@@ -437,18 +436,16 @@ ORDER BY total_logged_days DESC;
 
 
 
-
-
 **📊 Users by Activity Level Segment**
 
 
 <table border="0">
   <tr>
-    <td width="30%" align="center">
+    <td width="30%" align="center" valign="middle">
       <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
     </td>
-    <td width="70%">
-      <p>Categorizing participants into distinct activity segments reveals how user populations break down across sedentary, lightly active, fairly active, and very active tiers.</p>
+    <td width="70%" valign="top">
+      <p><strong>Categorizing participants into distinct activity segments reveals how user populations break down across sedentary, lightly active, fairly active, and very active tiers.</strong></p>
       <p>Overall, segmenting these activity behaviors helps identify key user groups for targeted engagement and personalized wellness recommendations.</p>
     </td>
   </tr>
@@ -466,11 +463,11 @@ ORDER BY total_logged_days DESC;
 
 <table border="0">
   <tr>
-    <td width="30%" align="center">
+    <td width="30%" align="center" valign="middle">
       <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
     </td>
-    <td width="70%">
-      <p>Classifying participants by how consistently they wear their tracking devices uncovers patterns in user adherence and engagement over time.</p>
+    <td width="70%" valign="top">
+      <p><strong>Classifying participants by how consistently they wear their tracking devices uncovers patterns in user adherence and engagement over time.</strong></p>
       <p>Overall, identifying device usage tiers helps pinpoint drop-off points and guides retention strategies for long-term health tracking.</p>
     </td>
   </tr>
@@ -479,8 +476,6 @@ ORDER BY total_logged_days DESC;
 <p align="center">
   <img src="images/tableau/Users_by_device_usage_segment.png" width="400" alt="Users by device usage segment" />
 </p>
-
-
 
 The data behind each chart is in [`data/tableau/`](data/tableau/), produced by [`tableau_exports.sql`](sql/tableau_exports.sql).
 
