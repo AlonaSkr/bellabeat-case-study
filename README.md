@@ -348,7 +348,21 @@ ORDER BY total_logged_days DESC;
 
 
 
-![Daily time allocation by activity level](images/tableau/Daily_time_allocation_by_activity_level.png)
+<table border="0">
+  <tr>
+    <td width="30%" align="center">
+      <img src="images/mascot/mascot_is_happy.jpg" width="180" alt="Bellabeat Mascot Happy" />
+    </td>
+    <td width="70%">
+      <p><strong>Daily Time Allocation by Activity Level</strong></p>
+      <p>Analyzing how users distribute their daily hours reveals insights into sedentary versus active periods across the monitoring window.</p>
+    </td>
+  </tr>
+</table>
+
+<p align="center">
+  <img src="images/tableau/Daily_time_allocation_by_activity_level.png" width="1150" alt="Daily time allocation by activity level" />
+</p>
 
 
 
