@@ -1,4 +1,4 @@
-# 🦝 Project Mascot: Barnaby the Possum
+# Project Mascot: Barnaby the Possum
 
 <p align="center">
   <img src="mascot_standing_and_smiling.jpg" width="220" alt="Barnaby the Possum" />
