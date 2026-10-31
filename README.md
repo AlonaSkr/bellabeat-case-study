@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="./images/mascot/Bellabeat.gif" width="100%" alt="Bellabeat Case Study Hero Banner" />
+</p>
+
+
 # 🌿 Bellabeat Data Analysis Case Study
 **Google Data Analytics Professional Certificate Capstone**
 
